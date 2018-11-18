@@ -1,0 +1,88 @@
+version: '3'
+services:
+  listings:
+    build: ./mono-api-listings
+    volumes:
+    - ./mono-api-listings:/usr/src/app
+    ports:
+    - "9000:8080"
+    restart: always
+    links:
+    - mongodb
+    - rabbitmq
+  user-management:
+    build: ./mono-api-user-management
+    volumes:
+    - ./mono-api-user-management:/usr/src/app
+    restart: always
+    ports:
+    - "9001:8080"
+    links:
+    - mongodb
+    - rabbitmq
+  payments:
+    build: ./mono-api-payments
+    volumes:
+    - ./mono-api-payments:/usr/src/app
+    ports:
+    - "9002:8080"
+    links:
+    - mongodb
+    - rabbitmq
+  forums:
+    build: ./mono-api-forums
+    volumes:
+    - ./mono-api-forums:/usr/src/app
+    ports:
+    - "9005:8080"
+    restart: always
+    links:
+    - mongodb
+    - rabbitmq
+  socketchat:
+    build: ./mono-api-socketchat
+    volumes:
+    - ./mono-api-socketchat:/usr/src/app
+    links:
+    - mongodb
+    - rabbitmq
+  corresponance:
+    build: ./mono-api-correspondence
+    volumes:
+    - ./mono-api-correspondence:/app
+    ports:
+    - "9100:8080"
+    restart: always
+    links:
+    - mongodb
+    - rabbitmq
+  web-client:
+    build: ./mono-web-client
+    volumes:
+    - ./mono-web-client:/app
+    network_mode: host
+    ports:
+    - "80:8080"
+  mongodb:
+    image: mongo
+    ports:
+    - "27017:27017"
+    - "21018:27018"
+  rabbitmq:
+    image: apostrophe/rabbitmq-delayed-and-stompy
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+  redis:
+    image: redis
+    ports:
+    - "6379:6379"
+#  consul:
+#    image: smebberson/alpine-consul
+#    consului:
+#      image: smebberson/alpine-consul-ui
+#      ports:
+#      - 8500:8500

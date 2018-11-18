@@ -1,0 +1,12 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["es6"],
+    "module": "commonjs",
+    "sourceMap": true,
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": ["typings.d.ts", "server/**/*.ts"],
+  "exclude": ["node_modules"]
+}
